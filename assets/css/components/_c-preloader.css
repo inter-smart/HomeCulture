@@ -1,0 +1,104 @@
+/* ==========================================================================
+   c-preloader — full-screen branded loading state shown before first paint
+   of content. Tracks real asset-load progress (fonts + hero image), not a
+   fake timer. GPU-safe (opacity/transform only). Respects reduced motion.
+   ========================================================================== */
+
+html.is-loading,
+html.is-loading body {
+    overflow: hidden;
+    height: 100%;
+}
+
+.c-preloader {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-preloader);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1.5rem, 1.1rem + 1.5vw, 3rem);
+    background: var(--c-black);
+    transition: transform 900ms var(--ease-standard), opacity 700ms var(--ease-standard);
+}
+
+/* Exit: the whole panel lifts away like a curtain, unveiling the page */
+.c-preloader.is-hidden {
+    transform: translateY(-100%);
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.c-preloader__mark {
+    overflow: hidden;
+}
+
+.c-preloader__mark-text {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: var(--fs-preloader-mark);
+    letter-spacing: 0.04em;
+    color: var(--c-white);
+    transform: translateY(110%);
+    transition: transform 900ms var(--ease-standard);
+}
+
+.c-preloader.is-ready .c-preloader__mark-text {
+    transform: translateY(0);
+}
+
+.c-preloader__meter {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: min(17.5rem, 60vw);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity var(--dur-slow) var(--ease-standard) 300ms, transform var(--dur-slow) var(--ease-standard) 300ms;
+}
+
+.c-preloader.is-ready .c-preloader__meter {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.c-preloader__track {
+    position: relative;
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.18);
+    overflow: hidden;
+}
+
+.c-preloader__fill {
+    position: absolute;
+    inset: 0;
+    width: 0%;
+    background: var(--c-white);
+    transform-origin: left;
+    transition: width 250ms linear;
+}
+
+.c-preloader__count {
+    font-family: var(--font-body);
+    font-size: var(--fs-preloader-count);
+    letter-spacing: 0.08em;
+    color: var(--c-grey-paragraph);
+    font-variant-numeric: tabular-nums;
+    min-width: 2.75em;
+    text-align: right;
+}
+
+.c-preloader__count::after {
+    content: '%';
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .c-preloader,
+    .c-preloader__mark-text,
+    .c-preloader__meter {
+        transition-duration: 1ms !important;
+    }
+}

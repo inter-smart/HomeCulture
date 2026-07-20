@@ -39,6 +39,8 @@
     --fs-chaos-word: clamp(2.25rem, 0.9rem + 6.7vw, 6.725rem);       /* 36px -> 107.6px */
     --fs-luxury-tab: clamp(1.0625rem, 0.95rem + 0.6vw, 1.5625rem);   /* 17px -> 25px */
     --fs-luxury-quote: clamp(1.125rem, 0.98rem + 0.75vw, 1.875rem);  /* 18px -> 30px */
+    --fs-preloader-mark: clamp(1.75rem, 1.35rem + 2vw, 3.5rem);
+    --fs-preloader-count: clamp(0.75rem, 0.7rem + 0.25vw, 1rem);
 
     /* --- Layout: container / section rhythm ------------------------------ */
     --container-max: 1920px;
@@ -54,8 +56,9 @@
 
     /* --- Z-index scale ------------------------------------------------- */
     --z-header: 100;
-    --z-drawer: 200;
     --z-backdrop: 190;
+    --z-drawer: 200;
+    --z-preloader: 300;
 
     /* --- Motion ---------------------------------------------------------- */
     --ease-standard: cubic-bezier(0.65, 0, 0.35, 1);

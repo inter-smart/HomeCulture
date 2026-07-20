@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="is-loading">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,12 +19,28 @@
 <link rel="stylesheet" href="assets/css/components/_c-hero.css">
 <link rel="stylesheet" href="assets/css/components/_c-chaos.css">
 <link rel="stylesheet" href="assets/css/components/_c-luxury.css">
+<link rel="stylesheet" href="assets/css/components/_c-preloader.css">
 <link rel="stylesheet" href="assets/css/utilities/_reveal.css">
 
 <!-- LCP image: preload with high priority -->
 <link rel="preload" as="image" href="assets/images/sections/hero-bg.png" fetchpriority="high">
+
+<!-- If JS is disabled, the preloader JS never runs to unlock the page — fail open. -->
+<noscript><style>.c-preloader{display:none!important}html.is-loading{overflow:auto!important;height:auto!important}</style></noscript>
 </head>
 <body>
+
+<div class="c-preloader" id="preloader" role="status" aria-live="polite" aria-label="Loading Home Culture">
+    <div class="c-preloader__mark">
+        <span class="c-preloader__mark-text">HOME CULTURE&reg;</span>
+    </div>
+    <div class="c-preloader__meter">
+        <div class="c-preloader__track">
+            <div class="c-preloader__fill" id="preloaderFill"></div>
+        </div>
+        <span class="c-preloader__count" id="preloaderCount">0</span>
+    </div>
+</div>
 
 <header class="c-header" id="siteHeader">
     <div class="l-container">

@@ -6,6 +6,81 @@
         else document.addEventListener('DOMContentLoaded', fn);
     }
 
+    // Branded preloader — tracks real load progress (fonts + the hero LCP
+    // image) rather than a fake timer, animates the counter/bar toward it,
+    // then lifts the panel away like a curtain once everything is ready.
+    function initPreloader() {
+        var root = document.documentElement;
+        var el = document.getElementById('preloader');
+        var fill = document.getElementById('preloaderFill');
+        var count = document.getElementById('preloaderCount');
+
+        if (!el) {
+            root.classList.remove('is-loading');
+            return;
+        }
+
+        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var target = 0;
+        var displayed = 0;
+        var done = false;
+
+        function addWeight(w) {
+            target = Math.min(100, target + w);
+        }
+
+        function tick() {
+            displayed += (target - displayed) * (reduceMotion ? 1 : 0.18);
+            if (target - displayed < 0.4) displayed = target;
+            var shown = Math.round(displayed);
+            if (fill) fill.style.width = shown + '%';
+            if (count) count.textContent = shown;
+
+            if (displayed >= 100) {
+                finish();
+                return;
+            }
+            requestAnimationFrame(tick);
+        }
+
+        function finish() {
+            if (done) return;
+            done = true;
+            setTimeout(function () {
+                el.classList.add('is-hidden');
+                root.classList.remove('is-loading');
+                setTimeout(function () {
+                    el.setAttribute('aria-hidden', 'true');
+                    el.style.display = 'none';
+                }, 950);
+            }, reduceMotion ? 0 : 250);
+        }
+
+        requestAnimationFrame(function () {
+            el.classList.add('is-ready');
+        });
+
+        var heroImg = document.querySelector('.c-hero__media img');
+        var heroPromise = new Promise(function (resolve) {
+            if (!heroImg) return resolve();
+            if (heroImg.complete) return resolve();
+            heroImg.addEventListener('load', resolve, { once: true });
+            heroImg.addEventListener('error', resolve, { once: true });
+        });
+
+        var fontsPromise = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+        var minDelay = new Promise(function (resolve) { setTimeout(resolve, reduceMotion ? 0 : 700); });
+
+        fontsPromise.then(function () { addWeight(25); });
+        heroPromise.then(function () { addWeight(45); });
+        minDelay.then(function () { addWeight(30); });
+
+        // Hard safety timeout: never let a slow/failed asset block entry forever.
+        setTimeout(function () { target = 100; }, 6000);
+
+        requestAnimationFrame(tick);
+    }
+
     function initLenis() {
         if (typeof Lenis === 'undefined') return;
 
@@ -295,6 +370,7 @@
     }
 
     onReady(function () {
+        initPreloader();
         initLenis();
         initMobileNav();
         initScrollReveal();
