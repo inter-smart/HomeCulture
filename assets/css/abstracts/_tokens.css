@@ -1,0 +1,65 @@
+/* ==========================================================================
+   Design Tokens — sourced from Figma (file GjU1OS1G90VeZzEtYzLh6P-equivalent
+   "Home Culture" design, node 331:71). Fluid clamp()-based scale: every
+   token interpolates between a mobile floor and the 1920px Figma value.
+   NEVER hardcode a px value in a component file — reference a token here.
+   ========================================================================== */
+
+:root {
+    /* --- Color: Brand -------------------------------------------------- */
+    --c-black: #070707;
+    --c-white: #ffffff;
+    --c-body-bg: #ffffff;
+
+    /* --- Color: Semantic aliases (fill in as sections reveal palette) --- */
+    --c-header-bg: var(--c-black);
+    --c-text-on-dark: var(--c-white);
+    --c-grey-paragraph: #cccccc; /* Figma variable: "Grey paragraph" */
+
+    /* --- Typography: font families --------------------------------------
+       'Stretch Pro' is the Figma display/logo font (condensed, T.26
+       foundry — not a licensed web font in this repo). Falls back to a
+       condensed grotesk until a licensed webfont file is supplied.
+       'Euclid Circular A' (body/UI) and exact 'Unna' weight are also
+       commercial/unconfirmed — Inter + Unna(Google) stand in until
+       licensed files are supplied. */
+    --font-display: 'Stretch Pro', 'Oswald', sans-serif;
+    --font-body: 'Euclid Circular A', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-serif: 'Unna', Georgia, 'Times New Roman', serif;
+
+    /* --- Fluid viewport clamp bounds -------------------------------------
+       Mobile floor measured at 375px, ceiling matches Figma 1920px frame. */
+    --fs-logo: clamp(1.125rem, 0.98rem + 0.77vw, 1.535rem);   /* 18px -> 24.56px */
+    --fs-hero-eyebrow: clamp(0.8125rem, 0.75rem + 0.32vw, 1.125rem); /* 13px -> 18px */
+    --fs-hero-title: clamp(2.25rem, 1.35rem + 4.2vw, 5.3125rem);     /* 36px -> 85px */
+    --fs-hero-desc: clamp(1rem, 0.92rem + 0.42vw, 1.278rem);         /* 16px -> 20.44px */
+    --fs-btn-label: clamp(0.875rem, 0.82rem + 0.28vw, 1.125rem);     /* 14px -> 18px */
+    --fs-chaos-eyebrow: var(--fs-hero-eyebrow);
+    --fs-chaos-headline: clamp(1.75rem, 1.35rem + 2vw, 3.75rem);     /* 28px -> 60px */
+    --fs-chaos-word: clamp(2.25rem, 0.9rem + 6.7vw, 6.725rem);       /* 36px -> 107.6px */
+    --fs-luxury-tab: clamp(1.0625rem, 0.95rem + 0.6vw, 1.5625rem);   /* 17px -> 25px */
+    --fs-luxury-quote: clamp(1.125rem, 0.98rem + 0.75vw, 1.875rem);  /* 18px -> 30px */
+
+    /* --- Layout: container / section rhythm ------------------------------ */
+    --container-max: 1920px;
+    --container-pad-inline: clamp(1.25rem, 0.4rem + 4.6vw, 6.25rem); /* 20px -> 100px */
+    --sp-section: clamp(2.5rem, 1.8rem + 3vw, 6.25rem); /* 40px -> 100px */
+
+    /* --- Header ----------------------------------------------------------- */
+    --header-h: clamp(4rem, 3.55rem + 2vw, 6rem); /* 64px -> 96px */
+
+    /* --- Hero --------------------------------------------------------------- */
+    --hero-min-h: clamp(38rem, 20rem + 45vw, 62.625rem); /* -> 1002px */
+    --btn-h: clamp(3rem, 2.7rem + 1.2vw, 4.4375rem); /* 48px -> 71px */
+
+    /* --- Z-index scale ------------------------------------------------- */
+    --z-header: 100;
+    --z-drawer: 200;
+    --z-backdrop: 190;
+
+    /* --- Motion ---------------------------------------------------------- */
+    --ease-standard: cubic-bezier(0.65, 0, 0.35, 1);
+    --dur-fast: 200ms;
+    --dur-base: 400ms;
+    --dur-slow: 600ms;
+}

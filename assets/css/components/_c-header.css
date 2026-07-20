@@ -1,0 +1,131 @@
+/* ==========================================================================
+   c-header — Section 1: sticky top navbar
+   Figma: node 336:460 "Group 1171283356" (bg #070707, logo + hamburger)
+   ========================================================================== */
+
+.c-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: var(--z-header);
+    background: var(--c-header-bg);
+}
+
+.c-header__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-h);
+}
+
+.c-header__logo {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: var(--fs-logo);
+    letter-spacing: 0.02em;
+    color: var(--c-text-on-dark);
+    white-space: nowrap;
+}
+
+.c-header__toggle {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 6px;
+    width: clamp(1.75rem, 1.6rem + 0.6vw, 2.5rem);
+    height: clamp(1.75rem, 1.6rem + 0.6vw, 2.5rem);
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.c-header__toggle-bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--c-white);
+    border-radius: 1px;
+    transition: transform var(--dur-base) var(--ease-standard),
+        opacity var(--dur-fast) var(--ease-standard),
+        width var(--dur-fast) var(--ease-standard);
+}
+
+.c-header__toggle:hover .c-header__toggle-bar:first-child { width: 70%; }
+
+.c-header__toggle[aria-expanded="true"] .c-header__toggle-bar:first-child {
+    transform: translateY(8px) rotate(45deg);
+    width: 100%;
+}
+
+.c-header__toggle[aria-expanded="true"] .c-header__toggle-bar:nth-child(2) {
+    opacity: 0;
+}
+
+.c-header__toggle[aria-expanded="true"] .c-header__toggle-bar:last-child {
+    transform: translateY(-8px) rotate(-45deg);
+    width: 100%;
+}
+
+/* --- Mobile nav drawer ------------------------------------------------- */
+/* #MobileNav / #NavBackdrop must stay direct children of <body>, never
+   nested inside <header> — avoids z-index isolation & sticky transform bugs. */
+
+.c-mobile-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: min(22.5rem, 86vw);
+    background: var(--c-black);
+    z-index: var(--z-drawer);
+    transform: translateX(100%);
+    transition: transform var(--dur-slow) var(--ease-standard);
+    padding: clamp(1.5rem, 1.2rem + 1.5vw, 3rem) clamp(1.5rem, 1.2rem + 1.5vw, 3rem);
+    overflow-y: auto;
+}
+
+.c-mobile-nav.is-open { transform: translateX(0); }
+
+.c-mobile-nav__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: var(--c-white);
+    font-size: 1.75rem;
+    line-height: 1;
+    margin-left: auto;
+}
+
+.c-mobile-nav__list { margin-top: clamp(2rem, 1.5rem + 2.5vw, 4rem); }
+
+.c-mobile-nav__link {
+    display: block;
+    padding-block: 0.85em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--c-white);
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 0.92rem + 0.4vw, 1.25rem);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: opacity var(--dur-fast) var(--ease-standard);
+}
+
+.c-mobile-nav__link:hover,
+.c-mobile-nav__link:focus-visible { opacity: 0.6; }
+
+.c-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: var(--z-backdrop);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--dur-base) var(--ease-standard), visibility var(--dur-base);
+}
+
+.c-backdrop.is-open { opacity: 1; visibility: visible; }

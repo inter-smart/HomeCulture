@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Scroll reveal utility — pairs with the IntersectionObserver in app.js.
+   GPU-safe properties only (opacity + transform).
+   ========================================================================== */
+
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity var(--dur-slow) var(--ease-standard),
+        transform var(--dur-slow) var(--ease-standard);
+}
+
+[data-reveal].is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}

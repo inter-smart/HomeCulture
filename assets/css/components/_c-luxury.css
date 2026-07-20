@@ -1,0 +1,156 @@
+/* ==========================================================================
+   c-luxury — Section 4: "Imagine Buying Your Home Like Buying a Luxury Car"
+   Figma: node 356:46 "Container"
+   Background is a 303-frame WebP sequence (source: Porsche 60fps render)
+   drawn to <canvas> and scrubbed by scroll progress — same pin technique
+   as .c-chaos, but the "video" is frames instead of a <video> element,
+   for exact per-scroll-pixel control. GPU-safe, no GSAP.
+   ========================================================================== */
+
+.c-luxury {
+    position: relative;
+    height: 350vh;
+    background: var(--c-black);
+}
+
+.c-luxury__pin {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+}
+
+.c-luxury__canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--c-black);
+}
+
+.c-luxury__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.15) 35%, rgba(0, 0, 0, 0.1) 55%, rgba(0, 0, 0, 0.55) 100%);
+    pointer-events: none;
+}
+
+.c-luxury__inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding-block: clamp(2rem, 1.4rem + 3vw, 4.6rem);
+}
+
+.c-luxury__eyebrow {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: var(--fs-hero-eyebrow);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-grey-paragraph);
+    margin-bottom: 0.75em;
+}
+
+.c-luxury__underline {
+    display: block;
+    width: clamp(10rem, 8.5rem + 6vw, 17.7rem); /* 283px at desktop */
+    height: auto;
+    margin-bottom: clamp(1rem, 0.7rem + 1.2vw, 2rem);
+    opacity: 0.9;
+}
+
+.c-luxury__title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: var(--fs-chaos-headline);
+    line-height: 1;
+    color: var(--c-white);
+    opacity: 0.9;
+    max-width: 22ch;
+    margin-bottom: clamp(1rem, 0.8rem + 0.8vw, 1.75rem);
+}
+
+.c-luxury__desc {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: var(--fs-hero-desc);
+    line-height: 1.5;
+    color: var(--c-white);
+    max-width: 30ch;
+}
+
+.c-luxury__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: clamp(2rem, 1rem + 3vw, 4rem);
+    margin-top: clamp(3rem, 2rem + 5vw, 8.75rem);
+}
+
+.c-luxury__choose {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--fs-hero-desc);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c-grey-paragraph);
+    opacity: 0.9;
+    margin-bottom: clamp(1rem, 0.8rem + 1vw, 1.75rem);
+}
+
+.c-luxury__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(1.25rem, 0.8rem + 2vw, 3.75rem);
+}
+
+.c-luxury__tab {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--fs-luxury-tab);
+    text-transform: uppercase;
+    color: var(--c-white);
+}
+
+.c-luxury__aside {
+    display: flex;
+    align-items: center;
+    gap: clamp(1.25rem, 0.9rem + 1.5vw, 2.5rem);
+}
+
+.c-luxury__quote {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: var(--fs-luxury-quote);
+    line-height: 1.32;
+    color: var(--c-white);
+    max-width: 18ch;
+    text-align: right;
+}
+
+.c-luxury__next {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(4.5rem, 3.9rem + 2vw, 7.5625rem); /* 121px */
+    height: clamp(4.5rem, 3.9rem + 2vw, 7.5625rem);
+    flex-shrink: 0;
+    border-radius: 50%;
+    transition: transform var(--dur-base) var(--ease-standard);
+}
+
+.c-luxury__next:hover { transform: scale(1.06); }
+
+.c-luxury__next img { width: 100%; height: 100%; }
+
+@media (max-width: 61.9375rem) { /* <991px */
+    .c-luxury__row { flex-direction: column; align-items: flex-start; }
+    .c-luxury__aside { align-self: flex-start; }
+    .c-luxury__quote { text-align: left; }
+}

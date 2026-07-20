@@ -1,0 +1,10 @@
+/* ==========================================================================
+   Layout primitives — l- prefix per Enterprise_Frontend_Development.md
+   ========================================================================== */
+
+.l-container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--container-pad-inline);
+}

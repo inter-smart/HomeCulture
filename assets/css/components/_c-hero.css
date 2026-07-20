@@ -1,0 +1,205 @@
+/* ==========================================================================
+   c-hero — Section 2
+   Figma: node 337:141 "Container" (Animated Sky bg + heading + aside)
+   ========================================================================== */
+
+.c-hero {
+    position: relative;
+    min-height: var(--hero-min-h);
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: var(--c-black);
+}
+
+/* --- Media layer -------------------------------------------------------- */
+
+.c-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.c-hero__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.c-hero__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(174deg, rgba(0, 0, 0, 0.35) 46%, rgba(0, 0, 0, 0.7) 61%);
+}
+
+/* Ambient glow layers — decorative, opacity/transform only (GPU-safe) */
+.c-hero__glow {
+    position: absolute;
+    inset: 0;
+    top: 0;
+    height: 45%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.c-hero__glow--warm {
+    background: linear-gradient(180deg, rgba(255, 166, 51, 0.35) 0%, rgba(255, 115, 38, 0.2) 50%, rgba(255, 77, 26, 0) 100%);
+    mix-blend-mode: screen;
+    animation: hero-glow-warm 14s ease-in-out infinite;
+}
+
+.c-hero__glow--cool {
+    background: linear-gradient(180deg, rgba(77, 38, 153, 0.3) 0%, rgba(51, 26, 115, 0.15) 60%, rgba(26, 13, 51, 0) 100%);
+    mix-blend-mode: soft-light;
+    animation: hero-glow-cool 14s ease-in-out infinite 7s;
+}
+
+@keyframes hero-glow-warm {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+@keyframes hero-glow-cool {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+/* --- Content layer -------------------------------------------------------- */
+
+.c-hero__content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding-block-end: clamp(2rem, 1.4rem + 3vw, 4.6rem);
+}
+
+.c-hero__row {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: clamp(1.5rem, 0.6rem + 3vw, 4rem);
+}
+
+/* flex-basis is proportional to each block's Figma width (662px / 649px) so
+   both shrink together at mid viewports instead of one hogging fixed space
+   and squeezing the other into a word-per-line wrap. */
+.c-hero__heading { flex: 1 1 27.5rem; min-width: 0; }
+
+.c-hero__eyebrow {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--fs-hero-eyebrow);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-grey-paragraph);
+    margin-bottom: 0.9em;
+}
+
+.c-hero__title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: var(--fs-hero-title);
+    line-height: 0.99;
+    text-transform: capitalize;
+    color: var(--c-white);
+    opacity: 0.9;
+    max-width: 18ch;
+}
+
+.c-hero__aside {
+    flex: 1 1 27rem;
+    max-width: 40.5625rem; /* 649px */
+    min-width: 0;
+}
+
+.c-hero__play {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(4.5rem, 3.9rem + 2vw, 7.5625rem);
+    height: clamp(4.5rem, 3.9rem + 2vw, 7.5625rem);
+    margin-bottom: clamp(1.5rem, 1.1rem + 1.5vw, 3rem);
+    border-radius: 50%;
+    background: rgba(113, 107, 107, 0.2);
+    border: 1px solid rgba(102, 102, 102, 0.6);
+    transition: transform var(--dur-base) var(--ease-standard), background var(--dur-base) var(--ease-standard);
+}
+
+.c-hero__play:hover { transform: scale(1.06); background: rgba(113, 107, 107, 0.35); }
+
+.c-hero__play-icon {
+    width: 22%;
+    height: auto;
+    aspect-ratio: 15.3197 / 13.2672;
+    transform: rotate(90deg);
+}
+
+.c-hero__desc {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: var(--fs-hero-desc);
+    line-height: 1.5;
+    color: var(--c-white);
+    margin-bottom: clamp(1.5rem, 1.1rem + 1.5vw, 2.8125rem);
+}
+
+/* --- CTA buttons ---------------------------------------------------------- */
+
+.c-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(0.625rem, 0.5rem + 0.5vw, 1rem);
+}
+
+.c-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.75rem, 0.6rem + 0.6vw, 1.25rem);
+    height: var(--btn-h);
+    padding-inline: clamp(1.25rem, 1rem + 1vw, 2rem);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--fs-btn-label);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    transition: transform var(--dur-fast) var(--ease-standard), background var(--dur-fast) var(--ease-standard);
+}
+
+.c-btn:hover { transform: translateY(-2px); }
+
+.c-btn__icon {
+    width: clamp(0.625rem, 0.55rem + 0.3vw, 0.75rem);
+    height: auto;
+    aspect-ratio: 10.4855 / 19.7726;
+    transform: rotate(-45deg);
+    transition: transform var(--dur-base) var(--ease-standard);
+}
+
+.c-btn:hover .c-btn__icon { transform: rotate(-45deg) translate(15%, -15%); }
+
+.c-btn--dark {
+    background: var(--c-black);
+    color: var(--c-white);
+    border: 1px solid #333232;
+}
+
+.c-btn--light {
+    background: var(--c-white);
+    color: var(--c-black);
+    border: 1px solid var(--c-white);
+}
+
+/* --- Responsive: stack heading over aside only on true mobile ------------- */
+/* Figma has no mobile frame for this section — side-by-side (as designed)
+   holds down to tablet width; only phones fall back to a single column. */
+@media (max-width: 47.9375rem) { /* <767px */
+    .c-hero__row { flex-direction: column; align-items: flex-start; }
+    .c-hero__heading,
+    .c-hero__aside { flex-basis: auto; max-width: none; }
+}
