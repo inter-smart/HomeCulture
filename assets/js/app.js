@@ -9,7 +9,7 @@
     // Branded preloader — tracks real load progress (fonts + the hero LCP
     // image) rather than a fake timer, animates the counter/bar toward it,
     // then lifts the panel away like a curtain once everything is ready.
-    function initPreloader() {
+    function initPreloader(onDone) {
         var root = document.documentElement;
         var el = document.getElementById('preloader');
         var fill = document.getElementById('preloaderFill');
@@ -17,6 +17,7 @@
 
         if (!el) {
             root.classList.remove('is-loading');
+            if (onDone) onDone();
             return;
         }
 
@@ -49,6 +50,7 @@
             setTimeout(function () {
                 el.classList.add('is-hidden');
                 root.classList.remove('is-loading');
+                if (onDone) onDone();
                 setTimeout(function () {
                     el.setAttribute('aria-hidden', 'true');
                     el.style.display = 'none';
@@ -82,7 +84,7 @@
     }
 
     function initLenis() {
-        if (typeof Lenis === 'undefined') return;
+        if (typeof Lenis === 'undefined') return null;
 
         var lenis = new Lenis({
             duration: 1.2,
@@ -96,11 +98,19 @@
             infinite: false
         });
 
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
+        // Sync with GSAP's ticker instead of a separate rAF loop so Lenis and
+        // ScrollTrigger-driven animations (text reveals) stay on the same
+        // frame clock — the standard GSAP+Lenis integration pattern.
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+            gsap.ticker.lagSmoothing(0);
+        } else {
+            (function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            })();
         }
-        requestAnimationFrame(raf);
 
         document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
             anchor.addEventListener('click', function (e) {
@@ -110,6 +120,125 @@
                 if (target) {
                     e.preventDefault();
                     lenis.scrollTo(target, { offset: -80 });
+                }
+            });
+        });
+
+        return lenis;
+    }
+
+    // Splacio-style text reveals: headings/paragraphs split into lines and
+    // masked (SplitText's built-in `mask` wraps each line in an
+    // overflow-hidden span), then each line slides up + fades in with a
+    // stagger. Hero plays once, right as the preloader curtain lifts
+    // (not scroll-triggered — it's already on screen). Everything below
+    // the fold plays via ScrollTrigger the first time it scrolls into view.
+    var gsapReady = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && typeof SplitText !== 'undefined';
+
+    if (gsapReady) {
+        gsap.registerPlugin(ScrollTrigger, SplitText);
+    }
+
+    function splitLines(el, vars) {
+        return new Promise(function (resolve) {
+            SplitText.create(el, {
+                type: 'lines',
+                mask: 'lines',
+                autoSplit: true,
+                onSplit: function (self) {
+                    return gsap.from(self.lines, Object.assign({
+                        yPercent: 110,
+                        opacity: 0,
+                        duration: 1,
+                        stagger: 0.08,
+                        ease: 'power3.out',
+                        onComplete: resolve
+                    }, vars || {}));
+                }
+            });
+        });
+    }
+
+    function initHeroReveal() {
+        var eyebrow = document.querySelector('.c-hero__eyebrow');
+        var title = document.querySelector('.c-hero__title');
+        var desc = document.querySelector('.c-hero__desc');
+        var play = document.querySelector('.c-hero__play');
+        var actions = document.querySelectorAll('.c-hero__actions .c-btn');
+
+        if (!gsapReady) {
+            // Fallback: just make sure hero content is visible without GSAP.
+            [eyebrow, title, desc, play].forEach(function (el) { if (el) el.style.opacity = 1; });
+            return;
+        }
+
+        var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+        if (eyebrow) tl.from(eyebrow, { opacity: 0, y: 16, duration: 0.6 });
+        if (title) {
+            tl.add(function () {
+                SplitText.create(title, {
+                    type: 'lines',
+                    mask: 'lines',
+                    onSplit: function (self) {
+                        return gsap.from(self.lines, { yPercent: 110, opacity: 0, duration: 1, stagger: 0.08, ease: 'power3.out' });
+                    }
+                });
+            }, '-=0.35');
+        }
+        if (desc) {
+            tl.add(function () {
+                SplitText.create(desc, {
+                    type: 'lines',
+                    mask: 'lines',
+                    onSplit: function (self) {
+                        return gsap.from(self.lines, { yPercent: 110, opacity: 0, duration: 0.8, stagger: 0.05, ease: 'power3.out' });
+                    }
+                });
+            }, '-=0.5');
+        }
+        if (play) tl.from(play, { opacity: 0, scale: 0.85, duration: 0.6 }, '-=0.6');
+        if (actions.length) tl.from(actions, { opacity: 0, y: 16, duration: 0.5, stagger: 0.1 }, '-=0.4');
+    }
+
+    function initScrollTextReveal() {
+        if (!gsapReady) {
+            document.querySelectorAll('[data-split-reveal]').forEach(function (el) { el.style.opacity = 1; });
+            return;
+        }
+
+        document.querySelectorAll('[data-split-reveal]').forEach(function (el) {
+            SplitText.create(el, {
+                type: 'lines',
+                mask: 'lines',
+                autoSplit: true,
+                onSplit: function (self) {
+                    return gsap.from(self.lines, {
+                        yPercent: 110,
+                        opacity: 0,
+                        duration: 1,
+                        stagger: 0.07,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: el,
+                            start: 'top 85%',
+                            toggleActions: 'play none none none'
+                        }
+                    });
+                }
+            });
+        });
+
+        document.querySelectorAll('[data-fade-reveal]').forEach(function (el) {
+            gsap.from(el, {
+                opacity: 0,
+                y: 20,
+                duration: 0.7,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 88%',
+                    toggleActions: 'play none none none'
                 }
             });
         });
@@ -370,12 +499,13 @@
     }
 
     onReady(function () {
-        initPreloader();
         initLenis();
         initMobileNav();
         initScrollReveal();
+        initScrollTextReveal();
         initChaosVideo();
         initChaosWords();
         initLuxuryScroll();
+        initPreloader(initHeroReveal);
     });
 })();

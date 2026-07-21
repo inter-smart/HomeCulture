@@ -12,12 +12,12 @@
 
         <div class="c-hero__content l-container">
             <div class="c-hero__row">
-                <div class="c-hero__heading" data-reveal>
+                <div class="c-hero__heading">
                     <span class="c-hero__eyebrow">Explore Home Culture</span>
                     <h1 class="c-hero__title">The New Paradigm in Premium Living</h1>
                 </div>
 
-                <div class="c-hero__aside" data-reveal>
+                <div class="c-hero__aside">
                     <button type="button" class="c-hero__play" aria-label="Play introduction video">
                         <img src="assets/images/icons/hero-play-triangle.svg" alt="" class="c-hero__play-icon" width="16" height="14" aria-hidden="true">
                     </button>
@@ -49,11 +49,11 @@
             </div>
 
             <div class="c-chaos__inner l-container">
-                <span class="c-chaos__eyebrow">The Inherent Chaos</span>
-                <h2 class="c-chaos__headline">Great Homes Deserve<br>Better Journeys.</h2>
-                <p class="c-chaos__desc">A premium residence should be created with clarity&mdash;not endless coordination.</p>
+                <span class="c-chaos__eyebrow" data-fade-reveal>The Inherent Chaos</span>
+                <h2 class="c-chaos__headline" data-split-reveal>Great Homes Deserve<br>Better Journeys.</h2>
+                <p class="c-chaos__desc" data-split-reveal>A premium residence should be created with clarity&mdash;not endless coordination.</p>
 
-                <div class="c-chaos__subtitle">
+                <div class="c-chaos__subtitle" data-fade-reveal>
                     <span>Broken Process</span>
                     <img src="assets/images/icons/arrow-down.svg" alt="" class="c-chaos__subtitle-arrow" width="22" height="8" aria-hidden="true">
                 </div>
@@ -69,7 +69,7 @@
                     <span class="c-chaos__word">Delays</span>
                 </div>
 
-                <a href="#" class="c-btn c-btn--dark c-chaos__cta">
+                <a href="#" class="c-btn c-btn--dark c-chaos__cta" data-fade-reveal>
                     <span class="c-chaos__cta-sweep" aria-hidden="true"></span>
                     Find A Better Way
                     <img src="assets/images/icons/arrow-diagonal-chaos.svg" alt="" class="c-btn__icon" width="11" height="20" aria-hidden="true">
@@ -86,14 +86,14 @@
             <div class="c-luxury__scrim" aria-hidden="true"></div>
 
             <div class="c-luxury__inner l-container">
-                <span class="c-luxury__eyebrow">Hassle-Free Ownership</span>
+                <span class="c-luxury__eyebrow" data-fade-reveal>Hassle-Free Ownership</span>
                 <img src="assets/images/icons/underline-eyebrow.svg" alt="" class="c-luxury__underline" width="283" height="13" aria-hidden="true">
 
-                <h2 class="c-luxury__title">Imagine Buying Your Home Like Buying a Luxury Car.</h2>
-                <p class="c-luxury__desc">You don't buy the engine, seats, dashboard, and wheels separately.</p>
+                <h2 class="c-luxury__title" data-split-reveal>Imagine Buying Your Home Like Buying a Luxury Car.</h2>
+                <p class="c-luxury__desc" data-split-reveal>You don't buy the engine, seats, dashboard, and wheels separately.</p>
 
                 <div class="c-luxury__row">
-                    <div class="c-luxury__choices">
+                    <div class="c-luxury__choices" data-fade-reveal>
                         <span class="c-luxury__choose">You Simply Choose :</span>
                         <div class="c-luxury__tabs">
                             <span class="c-luxury__tab">Brand</span>
@@ -104,8 +104,8 @@
                     </div>
 
                     <div class="c-luxury__aside">
-                        <p class="c-luxury__quote">Your Premium Home Deserves the Same Experience.!!</p>
-                        <a href="#" class="c-luxury__next" aria-label="Next">
+                        <p class="c-luxury__quote" data-split-reveal>Your Premium Home Deserves the Same Experience.!!</p>
+                        <a href="#" class="c-luxury__next" aria-label="Next" data-fade-reveal>
                             <img src="assets/images/icons/circle-arrow-button.svg" alt="" width="121" height="121">
                         </a>
                     </div>
